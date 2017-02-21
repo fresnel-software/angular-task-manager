@@ -1,0 +1,25 @@
+<div [class.task-wrapper--active]="taskIsActive" class="task-wrapper">
+
+    <div class="task-wrapper__progress">
+        <sd-state
+            [key]="task.state"
+            [value]="task.state">
+        </sd-state>
+    </div>
+
+  <span
+    [class.task-wrapper__name--comleted]="task.state === 'Completed'"
+    class="task-wrapper__name"
+  >
+    {{task.name}}
+  </span>
+
+  <div class="task-wrapper__estimate">
+      <div class="estimate">
+          <span class="estimate__value">
+              {{task.estimate | humanizeTime}}
+          </span>
+      </div>
+  </div>
+
+</div>
