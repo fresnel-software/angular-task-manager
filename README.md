@@ -5,7 +5,7 @@
 * npm >= 3.10.3
 
 ## Running the project
-* `git clone https://vincent_stark@bitbucket.org/vincent_stark/angular-task-manager.git`
+* `git clone https://github.com/fresnel-software/angular-task-manager.git`
 * `cd angular-task-manager`
 * `npm install`
 * `npm run-script "build.and.start"`
