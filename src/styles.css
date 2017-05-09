@@ -1,0 +1,31 @@
+/* Global styles */
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+/* General */
+body {
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+/* Modals */
+.modal-backdrop.fade.in {
+  opacity: .5;
+}
+
+.modal.fade.in {
+  opacity: 1;
+}
+
+.modal .modal-dialog {
+  margin: 200px auto;
+}
+
+.modal-content, .modal-content .form-control {
+  font-size: .85rem;
+}

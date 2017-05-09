@@ -1,0 +1,68 @@
+.navbar.bg-inverse {
+  background-color: #ff7800 !important;
+}
+
+.navbar .navbar-brand {
+  font-family: 'Permanent Marker', cursive;
+}
+
+.navbar .btn-outline-primary {
+  color: #fff;
+  border-color: #fff;
+}
+
+.navbar .btn-outline-primary:hover {
+  color: #ff7800;
+  background-color: #fff;
+}
+
+.status-bar {
+    text-align: right;
+}
+
+.status-bar .badge-label {
+    color: #292b2c;
+}
+
+.status-bar .badge-default {
+  background-color: #889096;
+}
+
+.tasks-group {
+  background: #f7f7f9;
+}
+
+.tasks-group .no-tasks {
+  color: #666;
+  font-size: .85rem;
+}
+
+.task {
+  position: relative;
+  margin-bottom: .5rem;
+}
+
+.task .task-actions {
+  position: absolute;
+  right: .5rem;
+  top: .5rem;
+  display: none;
+}
+
+.task:hover .task-actions {
+  display: block;
+}
+
+.task .task-actions .btn {
+  padding: .1rem .2rem;
+  font-size: .9rem;
+}
+
+.task .task-content {
+  font-size: .9rem;
+  padding: .75rem;
+}
+
+button.delete, button.delete i {
+  color: red;
+}

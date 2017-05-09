@@ -1,0 +1,165 @@
+<!-- Navigation bar -->
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse mb-4">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/index.html">tasker</a>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+    </ul>
+    <form class="form-inline mt-2 mt-md-0">
+      <button (click)="openNewTaskModal(content)" class="btn btn-outline-primary my-2 my-sm-0" type="submit">New Task</button>
+    </form>
+  </div>
+</nav>
+
+<!-- Main -->
+<main class="container">
+  <div class="row">
+    <div class="col-12 status-bar">
+      <span class="badge badge-label"><strong>Estimated hours:</strong></span>
+      <span class="badge badge-default">Planned: {{getEstimatedHoursTotal(1)}}</span>
+      <span class="badge badge-default">In Progress: {{getEstimatedHoursTotal(2)}}</span>
+      <span class="badge badge-default">Completed: {{getEstimatedHoursTotal(3)}}</span>
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- State column -->
+    <div class="col-sm-12 col-md-4">
+      <section class="card tasks-group">
+        <div class="card-header">
+          <strong>Planned</strong>
+        </div>
+        <div class="card-block">
+          <span *ngIf="tasksPlanned.length === 0" class="no-tasks">No tasks.</span>
+          <article *ngFor="let task of tasksPlanned" class="card task">
+            <div class="task-actions">
+              <span class="btn btn-outline-secondary">
+                <i (click)="openEditTaskModal(content, task)" class="fa fa-pencil" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="card-block task-content">
+              {{task.title}}
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+    <!-- State column -->
+    <div class="col-sm-12 col-md-4">
+      <section class="card tasks-group">
+        <div class="card-header">
+          <strong>In Progress</strong>
+        </div>
+        <div class="card-block">
+          <span *ngIf="tasksInProgress.length === 0" class="no-tasks">No tasks.</span>
+          <article *ngFor="let task of tasksInProgress" class="card task">
+            <div class="task-actions">
+              <span class="btn btn-outline-secondary">
+                <i (click)="openEditTaskModal(content, task)" class="fa fa-pencil" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="card-block task-content">
+              {{task.title}}
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+    <!-- State column -->
+    <div class="col-sm-12 col-md-4">
+      <section class="card tasks-group">
+        <div class="card-header">
+          <strong>Completed</strong>
+        </div>
+        <div class="card-block">
+          <span *ngIf="tasksCompleted.length === 0" class="no-tasks">No tasks.</span>
+          <article *ngFor="let task of tasksCompleted" class="card task">
+            <div class="task-actions">
+              <span class="btn btn-outline-secondary">
+                <i (click)="openEditTaskModal(content, task)" class="fa fa-pencil" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="card-block task-content">
+              {{task.title}}
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</main>
+
+<!-- Task actions modal -->
+<template #content let-closeModal="close" let-dismissModal="dismiss">
+  <div class="modal-header">
+    <h4 *ngIf="selectedTask.id === undefined" class="modal-title">New task</h4>
+    <h4 *ngIf="selectedTask.id !== undefined" class="modal-title">Edit task</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismissModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #taskForm="ngForm">
+      <div class="form-group row">
+        <label for="input-title" class="col-sm-3 col-form-label">Title:</label>
+        <div class="col-sm-9">
+          <input [(ngModel)]="selectedTask.title" name="title" #title="ngModel" type="text" class="form-control" id="input-title" [maxLength]="80" required>
+          <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+            Enter a title.
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="input-description" class="col-sm-3 col-form-label">Description:</label>
+        <div class="col-sm-9">
+          <textarea [(ngModel)]="selectedTask.description" name="description" #description="ngModel" class="form-control" rows="3" id="input-description" required>
+          </textarea>
+          <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
+            Enter a description.
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="input-estimate" class="col-3 col-form-label">Estimate:<br> (hours)</label>
+        <div class="col-9">
+          <input [(ngModel)]="selectedTask.estimate" #estimate="ngModel" pattern="^[0-9.]+$" class="form-control mb-2 mr-sm-2 mb-sm-0" type="number" name="estimate" id="input-estimate" placeholder="0"  min="0" required>
+          <div [hidden]="estimate.valid || estimate.pristine" class="alert alert-danger">
+            Enter a valid number of hours.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="input-status" class="col-3 col-form-label">Status:</label>
+        <div class="col-9">
+          <select [(ngModel)]="selectedTask.status" #status="ngModel" class="custom-select" name="status" id="input-status" required>
+            <option value="1">Planned</option>
+            <option value="2">In Progress</option>
+            <option value="3">Completed</option>
+          </select>
+          <div [hidden]="status.valid || status.pristine" class="alert alert-danger">
+            Enter a valid number of hours.
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <div class="form-group row">
+            <div class="col-sm-8">
+              <button *ngIf="selectedTask.id === undefined" [disabled]="!taskForm.form.valid" type="button" class="btn btn-success" (click)="executeTaskAction(selectedTask, createTask, closeModal)">Create</button>
+              <button *ngIf="selectedTask.id !== undefined" [disabled]="!taskForm.form.valid" type="button" class="btn btn-success" (click)="executeTaskAction(selectedTask, editTask, closeModal)">Save</button>
+            </div>
+            <div class="col-sm-4 text-right">
+              <button *ngIf="selectedTask.id !== undefined" type="button" class="btn btn-link delete" (click)="executeTaskAction(selectedTask, deleteTask, closeModal)"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</template>
